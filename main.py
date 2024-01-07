@@ -27,7 +27,7 @@ def has_target_class(tr):
 
 
 # Scrapping the data into a dataframe
-df = pd.DataFrame(columns=['Rank', 'Title', 'Total Earnings', 'Release Year'])
+df = pd.DataFrame(columns=['Title', 'Total Earnings', 'Release Year', 'Rank'])
 target_tags = soup.find_all(has_target_class)
 for target_tag in target_tags:
     movie_rank = target_tag.find('td', class_='a-text-right mojo-header-column mojo-truncate mojo-field-type-rank')
@@ -43,18 +43,14 @@ for target_tag in target_tags:
         year = release_year.text.strip()
 
         df = pd.concat([df, pd.DataFrame({
-                'Rank': [rank],
-                'Title': [title],
-                'Total Earnings': [box_office],
-                'Release Year': [year],
+            'Title': [title],
+            'Total Earnings': [box_office],
+            'Release Year': [year],
+            'Rank': [rank],
         })], ignore_index=True)
 
 # Setting rank column as the index
 df.set_index('Rank', inplace=True)
-
-# Reset index starting from 1 and move "Rank" back to a regular column
-df.index = range(1, len(df) + 1)
-df.reset_index(inplace=True)
 
 # writing the data to CSV file
 df.to_csv('movie data/Top Lifetime Grosses.csv', index=False)
