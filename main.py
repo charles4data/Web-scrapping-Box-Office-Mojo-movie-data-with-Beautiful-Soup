@@ -1,7 +1,7 @@
 # import necessary libraries
 from bs4 import BeautifulSoup
 import requests
-import pandas
+import pandas as pd
 
 
 # Getting text from url
@@ -24,6 +24,9 @@ def has_target_class(tr):
                                                     'mojo-field-type-rank')
 
 
+# Accessing the data and assigning to a pandas dataframe
+gross_data = pd.DataFrame()
+index = 0
 target_tags = soup.find_all(has_target_class)
 for target_tag in target_tags:
     movie_rank = target_tag.find('td', class_='a-text-right mojo-header-column mojo-truncate mojo-field-type-rank')
@@ -32,11 +35,23 @@ for target_tag in target_tags:
     lifetime_gross = target_tag.find('td', class_='a-text-right mojo-field-type-money')
     release_year = target_tag.find('td', class_='a-text-left mojo-field-type-year')
 
-    print(movie_rank.text)
-    print(movie_name.text)
-    print(lifetime_gross.text)
-    print(release_year.text)
-    print('')
+    # Creating and assigning variables for
+    if target_tag:
+        rank = movie_rank.text
+        title = movie_name.text
+        box_office = lifetime_gross.text
+        year = release_year.text
+
+        #assigning to a pandas dataframe
+        for index in range(len(target_tags)):
+            gross_data['Movie Rankings'] = rank
+            gross_data['Title'] = title
+            gross_data['Total Earnings'] = box_office
+            gross_data['Release Year'] = year
+
+print(gross_data)
+
+
 
 
 
