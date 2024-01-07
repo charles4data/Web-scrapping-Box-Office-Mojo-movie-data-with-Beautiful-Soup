@@ -1,12 +1,12 @@
 ## Web Scrapping Box Office Mojo data with Python - Beautiful Soup
 
 ### Overview
-This is a script for scrapping box office data from the Box office Mojo website and creating a csv file for the data.
-The script scraps data from the Box office Mojo website [link provided below]. The data is scrapped into a list of 
-dictionaries that contain the `movie title`, `box office earnings`, `moving ranking`, and `release year`.
+This is a script for scrapping box office data from the Box office Mojo website [link provided below] and creating a 
+csv file for the data. Scrapped data is used to create a list of dictionaries that contain the `movie title`, `box 
+office earnings`, `moving ranking`, and `release year`.
 
-link: https://www.boxofficemojo.com/title/tt0499549/?ref_=bo_cso_table_1
-Data: `movie data/Top Lifetime Grosses.csv`
++ link: https://www.boxofficemojo.com/title/tt0499549/?ref_=bo_cso_table_1
++ Data: `movie data/Top Lifetime Grosses.csv`
 
 ### Project Steps:
 The project took numerous steps, including the following
