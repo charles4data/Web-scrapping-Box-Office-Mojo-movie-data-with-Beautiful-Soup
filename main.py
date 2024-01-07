@@ -25,7 +25,7 @@ def has_target_class(tr):
 
 
 # Accessing the data and assigning to a pandas dataframe
-gross_data = []
+df = pd.DataFrame(columns=['Rank', 'Title', 'Total Earnings', 'Release Year'])
 target_tags = soup.find_all(has_target_class)
 for target_tag in target_tags:
     movie_rank = target_tag.find('td', class_='a-text-right mojo-header-column mojo-truncate mojo-field-type-rank')
@@ -42,21 +42,15 @@ for target_tag in target_tags:
         year = release_year.text.strip()
 
         # assigning to a pandas dataframe
-        movie_data = [
-            {
-                'Rank': rank,
-                'Title': title,
-                'Total Earnings': box_office,
-                'Release Year': year,
-            }
-        ]
-        gross_data.append(movie_data)
-
-gross_data_df = pd.DataFrame(gross_data)
-print(gross_data_df)
+        df = pd.concat([df, pd.DataFrame({
+                'Rank': [rank],
+                'Title': [title],
+                'Total Earnings': [box_office],
+                'Release Year': [year],
+        })], ignore_index=True)
 
 # writing the data to CSV file
-gross_data_df.to_csv('data/highest Movie earners.csv', index=False)
+df.to_csv('movie data/Top Lifetime Grosses.csv', index=False)
 
 
 
