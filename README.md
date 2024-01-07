@@ -25,4 +25,4 @@ The project took numerous steps, including the following
 + Python Pandas.
 
 ### Author:
-= Julius Charles
++ Julius Charles
