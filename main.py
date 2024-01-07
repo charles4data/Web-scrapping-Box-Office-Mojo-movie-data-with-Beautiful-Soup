@@ -52,6 +52,10 @@ for target_tag in target_tags:
 # Setting rank column as the index
 df.set_index('Rank', inplace=True)
 
+# Reset index starting from 1 and move "Rank" back to a regular column
+df.index = range(1, len(df) + 1)
+df.reset_index(inplace=True)
+
 # writing the data to CSV file
 df.to_csv('movie data/Top Lifetime Grosses.csv', index=False)
 
