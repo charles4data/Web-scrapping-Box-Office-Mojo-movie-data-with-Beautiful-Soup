@@ -1,10 +1,12 @@
+#!/usr/bin/python3
+
 # import necessary libraries
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
 
-# Getting text from url
+# Obtaining Top Lifetime Grosses data from Box office Mojo
 url = "https://www.boxofficemojo.com/chart/top_lifetime_gross/?area=XWW"
 response = requests.get(url)
 if response.status_code == 200:
@@ -14,7 +16,7 @@ else:
     exit()
 
 
-# Parsing the html content to beautiful soup
+# Parsing the data to beautiful soup
 soup = BeautifulSoup(html_text, 'lxml')
 
 
@@ -24,7 +26,7 @@ def has_target_class(tr):
                                                     'mojo-field-type-rank')
 
 
-# Accessing the data and assigning to a pandas dataframe
+# Scrapping the data into a dataframe
 df = pd.DataFrame(columns=['Rank', 'Title', 'Total Earnings', 'Release Year'])
 target_tags = soup.find_all(has_target_class)
 for target_tag in target_tags:
@@ -34,20 +36,21 @@ for target_tag in target_tags:
     lifetime_gross = target_tag.find('td', class_='a-text-right mojo-field-type-money')
     release_year = target_tag.find('td', class_='a-text-left mojo-field-type-year')
 
-    # Creating and assigning variables for
     if target_tag:
         rank = movie_rank.text.strip()
         title = movie_name.text.strip()
         box_office = lifetime_gross.text.strip()
         year = release_year.text.strip()
 
-        # assigning to a pandas dataframe
         df = pd.concat([df, pd.DataFrame({
                 'Rank': [rank],
                 'Title': [title],
                 'Total Earnings': [box_office],
                 'Release Year': [year],
         })], ignore_index=True)
+
+# Setting rank column as the index
+df.set_index('Rank', inplace=True)
 
 # writing the data to CSV file
 df.to_csv('movie data/Top Lifetime Grosses.csv', index=False)
